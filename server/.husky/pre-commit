@@ -1,0 +1,2 @@
+cd server
+pnpm dlx lint-staged

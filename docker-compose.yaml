@@ -1,0 +1,18 @@
+services:
+  nest-auth-db:
+    container_name: nest-auth-db
+    image: mariadb:11.8
+    environment:
+      MARIADB_ROOT_PASSWORD: Mw2iT3NpyTfAvG
+      MARIADB_PASSWORD: q8DZtgp7GeARLg
+      MARIADB_DATABASE: demo_db
+      MARIADB_USER: demo_user
+    ports:
+      - "3306:3306"
+    networks:
+      - nest-auth-network
+
+networks:
+  nest-auth-network:
+    name: nest-auth-network
+    driver: bridge
