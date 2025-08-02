@@ -1,12 +1,26 @@
 import { ConflictException, Injectable, UnauthorizedException } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
+import { JwtService } from "@nestjs/jwt";
+import { User } from "@prisma/client";
 import * as argon2 from "argon2";
 import { UserService } from "src/user/user.service";
 import { SignInDto } from "./dto/sign-in.dto";
 import { SignUpDto } from "./dto/sign-up.dto";
+import { JwtPayload } from "./types/jwt-payload.type";
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  private readonly accessTokenSecret: string;
+  private readonly accessTokenExpiresInMs: number;
+
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly userService: UserService,
+    private readonly configService: ConfigService
+  ) {
+    this.accessTokenSecret = this.configService.getOrThrow<string>("JWT_AT_SECRET");
+    this.accessTokenExpiresInMs = Number(this.configService.get<number>("JWT_AT_EXPIRES_IN_MS")) || 900_000;
+  }
 
   async signUp(dto: SignUpDto) {
     const { username, password } = dto;
@@ -21,7 +35,9 @@ export class AuthService {
 
     const newUser = await this.userService.create(username, hashedPassword);
 
-    return { ...newUser };
+    const accessToken = await this.generateToken(newUser);
+
+    return { accessToken };
   }
 
   async signIn(dto: SignInDto) {
@@ -37,6 +53,19 @@ export class AuthService {
       throw new UnauthorizedException("Incorrect email or password.");
     }
 
-    return { ...existingUser };
+    const accessToken = await this.generateToken(existingUser);
+
+    return { accessToken };
+  }
+
+  private async generateToken(user: User) {
+    const payload: JwtPayload = { sub: user.id, username: user.username };
+
+    const accessToken = await this.jwtService.signAsync(payload, {
+      expiresIn: `${this.accessTokenExpiresInMs}ms`,
+      secret: this.accessTokenSecret,
+    });
+
+    return accessToken;
   }
 }
