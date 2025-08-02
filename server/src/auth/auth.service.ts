@@ -46,11 +46,11 @@ export class AuthService {
     const existingUser = await this.userService.findByUsername(username);
 
     if (!existingUser) {
-      throw new UnauthorizedException("Incorrect email or password.");
+      throw new UnauthorizedException("Incorrect username or password.");
     }
 
     if (!(await argon2.verify(existingUser.password, password))) {
-      throw new UnauthorizedException("Incorrect email or password.");
+      throw new UnauthorizedException("Incorrect username or password.");
     }
 
     const accessToken = await this.generateToken(existingUser);
