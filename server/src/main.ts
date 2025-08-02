@@ -1,3 +1,4 @@
+import { ValidationPipe } from "@nestjs/common";
 import { NestFactory, Reflector } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import { HttpExceptionFilter } from "./common/filters/http-exception.filter";
@@ -10,6 +11,14 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new ResponseInterceptor(new Reflector()) //
+  );
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      forbidNonWhitelisted: true,
+      whitelist: true,
+      transform: true,
+    })
   );
 
   await app.listen(process.env.PORT ?? 3000);
