@@ -1,21 +1,4 @@
 services:
-  nest-auth-api:
-    container_name: nest-auth-api
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    image: nest-auth-api:latest
-    ports:
-      - "5000:3000"
-    environment:
-      - DATABASE_URL=mysql://demo_user:q8DZtgp7GeARLg@nest-auth-db:3306/demo_db
-      - JWT_AT_SECRET=tP6LzYcbXhN65IWQwzsOrpgi1HACy6OU
-      - JWT_AT_EXPIRES_IN_MS=900000
-    depends_on:
-      - nest-auth-db
-    networks:
-      - nest-auth-network
-
   nest-auth-db:
     container_name: nest-auth-db
     image: mariadb:11.8
