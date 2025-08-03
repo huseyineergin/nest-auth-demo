@@ -5,19 +5,21 @@ import { cookies } from "next/headers";
 
 const baseUrl = process.env.API_BASE_URL!;
 
-export async function signInAction(formData: {
+type AuthFormData = {
   username: string;
   password: string;
-}): Promise<APISuccessResponse<{ accessToken: string }> | APIErrorResponse> {
+};
+
+async function authenticateUser(
+  endpoint: "/auth/sign-in" | "/auth/sign-up",
+  formData: AuthFormData
+): Promise<APISuccessResponse<{ accessToken: string }> | APIErrorResponse> {
   const cookieStore = await cookies();
 
   try {
-    const res = await fetch(`${baseUrl}/auth/sign-in`, {
+    const res = await fetch(`${baseUrl}${endpoint}`, {
       method: "POST",
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
+      body: JSON.stringify(formData),
       headers: { "Content-Type": "application/json" },
     });
 
@@ -52,49 +54,10 @@ export async function signInAction(formData: {
   }
 }
 
-export async function signUpAction(formData: {
-  username: string;
-  password: string;
-}): Promise<APISuccessResponse<{ accessToken: string }> | APIErrorResponse> {
-  const cookieStore = await cookies();
+export async function signInAction(formData: AuthFormData) {
+  return authenticateUser("/auth/sign-in", formData);
+}
 
-  try {
-    const res = await fetch(`${baseUrl}/auth/sign-up`, {
-      method: "POST",
-      body: JSON.stringify({
-        username: formData.username,
-        password: formData.password,
-      }),
-      headers: { "Content-Type": "application/json" },
-    });
-
-    if (!res.ok) {
-      try {
-        const error: APIErrorResponse = await res.json();
-        return error;
-      } catch {
-        return {
-          success: false,
-          status: res.status,
-          message: "An unexpected error occurred.",
-        };
-      }
-    }
-
-    const result: APISuccessResponse<{ accessToken: string }> = await res.json();
-
-    cookieStore.set("accessToken", result.data.accessToken, {
-      path: "/",
-      maxAge: 60 * 15,
-      sameSite: "strict",
-    });
-
-    return result;
-  } catch {
-    return {
-      success: false,
-      status: 503,
-      message: "An unexpected error occurred.",
-    };
-  }
+export function signUpAction(formData: AuthFormData) {
+  return authenticateUser("/auth/sign-up", formData);
 }
