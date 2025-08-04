@@ -58,6 +58,6 @@ export async function signInAction(formData: AuthFormData) {
   return authenticateUser("/auth/sign-in", formData);
 }
 
-export function signUpAction(formData: AuthFormData) {
+export async function signUpAction(formData: AuthFormData) {
   return authenticateUser("/auth/sign-up", formData);
 }
