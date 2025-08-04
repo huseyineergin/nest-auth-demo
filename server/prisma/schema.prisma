@@ -15,3 +15,41 @@ model User {
 
   @@map("user")
 }
+
+model Genre {
+  id       String @id @default(uuid())
+  name     String
+  category String
+  slug     String
+
+  games Game[]
+
+  @@map("genre")
+}
+
+model Platform {
+  id       String @id @default(uuid())
+  name     String
+  category String
+  slug     String
+
+  games Game[]
+
+  @@map("platform")
+}
+
+model Game {
+  id          String   @id @default(uuid())
+  name        String
+  description String   @db.Text
+  releaseDate DateTime
+  metascore   Float
+  userScore   Float
+  developer   String
+  publisher   String
+
+  genres    Genre[]
+  platforms Platform[]
+
+  @@map("game")
+}
