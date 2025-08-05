@@ -1,5 +1,5 @@
-import { SignInForm } from "@/components/sign-in-form";
 import { ThemeToggler } from "@/components/theme-toggler";
+import { SignInForm } from "../(components)/sign-in-form";
 
 export default function Page() {
   return (

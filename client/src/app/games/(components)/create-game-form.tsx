@@ -1,6 +1,9 @@
 "use client";
 
 import { createGameAction } from "@/app/games/actions";
+import { FormInputField } from "@/components/form/form-input-field";
+import { FormMultiselectField } from "@/components/form/form-multiselect-field";
+import { FormTextareaField } from "@/components/form/form-textarea-field";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
@@ -12,10 +15,7 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form";
-import { Input } from "../../../components/ui/input";
-import { MultiSelect } from "../../../components/ui/multiselect";
-import { Textarea } from "../../../components/ui/textarea";
+import { Form } from "../../../components/ui/form";
 
 const formSchema = z.object({
   name: z.string().nonempty({ error: "Name is required." }),
@@ -110,167 +110,50 @@ export function CreateGameForm({
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6 text-left">
-                <FormField
-                  name="name"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="grid gap-3">
-                        <FormLabel>Name</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                <FormInputField name="name" control={form.control} label="Name" />
 
-                <FormField
-                  name="description"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="grid gap-3">
-                        <FormLabel>Description</FormLabel>
-                        <FormControl>
-                          <Textarea {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                <FormTextareaField name="description" control={form.control} label="Description" />
 
-                <FormField
+                <FormInputField
                   name="releaseDate"
                   control={form.control}
-                  render={({ field }) => (
-                    <FormItem>
-                      <div className="grid gap-3">
-                        <FormLabel>Release Date</FormLabel>
-                        <FormControl>
-                          <Input placeholder="YYYY-MM-DD" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
+                  label="Release Date"
+                  placeholder="YYYY-MM-DD"
                 />
 
                 <div className="flex space-x-2">
-                  <FormField
-                    name="metascore"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <div className="grid gap-3">
-                          <FormLabel>Metascore</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
+                  <FormInputField name="metascore" control={form.control} label="Metascore" />
 
-                  <FormField
-                    name="userScore"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <div className="grid gap-3">
-                          <FormLabel>User Score</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
+                  <FormInputField name="userScore" control={form.control} label="User Score" />
                 </div>
 
                 <div className="flex space-x-2">
-                  <FormField
-                    name="developer"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <div className="grid gap-3">
-                          <FormLabel>Developer</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
+                  <FormInputField name="developer" control={form.control} label="Developer" />
 
-                  <FormField
-                    name="publisher"
-                    control={form.control}
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <div className="grid gap-3">
-                          <FormLabel>Publisher</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
+                  <FormInputField name="publisher" control={form.control} label="Publisher" />
                 </div>
 
-                <FormField
-                  name="genreIds"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <div className="grid gap-3">
-                        <FormLabel>Genres</FormLabel>
-                        <FormControl>
-                          <MultiSelect
-                            options={genres.map((genre) => ({
-                              label: genre.name,
-                              value: genre.id,
-                            }))}
-                            selected={field.value}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                <div className="flex space-x-2">
+                  <FormMultiselectField
+                    name="genreIds"
+                    control={form.control}
+                    label="Genres"
+                    options={genres.map((genre) => ({
+                      label: genre.name,
+                      value: genre.id,
+                    }))}
+                  />
 
-                <FormField
-                  name="platformIds"
-                  control={form.control}
-                  render={({ field }) => (
-                    <FormItem className="w-full">
-                      <div className="grid gap-3">
-                        <FormLabel>Platforms</FormLabel>
-                        <FormControl>
-                          <MultiSelect
-                            options={platforms.map((platform) => ({
-                              label: platform.name,
-                              value: platform.id,
-                            }))}
-                            selected={field.value}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </div>
-                    </FormItem>
-                  )}
-                />
+                  <FormMultiselectField
+                    name="platformIds"
+                    control={form.control}
+                    label="Platforms"
+                    options={platforms.map((platform) => ({
+                      label: platform.name,
+                      value: platform.id,
+                    }))}
+                  />
+                </div>
 
                 <div className="flex flex-col gap-3">
                   <Button type="submit" className="w-full" disabled={isPending}>

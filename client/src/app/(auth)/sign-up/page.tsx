@@ -1,5 +1,5 @@
-import { SignUpForm } from "@/components/sign-up-form";
 import { ThemeToggler } from "@/components/theme-toggler";
+import { SignUpForm } from "../(components)/sign-up-form";
 
 export default function Page() {
   return (
