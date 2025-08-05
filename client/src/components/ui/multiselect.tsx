@@ -30,19 +30,28 @@ export function MultiSelect({ options, selected, placeholder = "Select", onChang
     }
   };
 
+  const getDisplayLabel = () => {
+    const maxDisplayed = 2;
+
+    if (selectedLabels.length > maxDisplayed) {
+      return `${selectedLabels.slice(0, maxDisplayed).join(", ")}, +${selectedLabels.length - maxDisplayed} more`;
+    } else if (selectedLabels.length > 0) {
+      return selectedLabels.join(", ");
+    }
+    return placeholder;
+  };
+
   const selectedLabels = options.filter((opt) => selected.includes(opt.value)).map((opt) => opt.label);
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
         <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
-          <span className={cn(selectedLabels.length === 0 && "text-muted-foreground")}>
-            {selectedLabels.length > 0 ? selectedLabels.join(", ") : placeholder}
-          </span>
+          <span className={cn(selectedLabels.length === 0 && "text-muted-foreground")}>{getDisplayLabel()}</span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0">
+      <PopoverContent className="max-w-56 p-0">
         <Command>
           <CommandInput placeholder="Search..." />
           <CommandList>
