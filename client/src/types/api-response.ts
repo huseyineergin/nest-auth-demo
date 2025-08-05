@@ -1,12 +1,12 @@
 export type APISuccessResponse<T> = {
-  success: boolean;
   message: string;
   status: number;
+  success: true;
   data: T;
 };
 
 export type APIErrorResponse = {
-  success: boolean;
   message: string;
   status: number;
+  success: false;
 };
