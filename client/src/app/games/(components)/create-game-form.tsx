@@ -12,19 +12,10 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "./ui/form";
-import { Input } from "./ui/input";
-import { MultiSelect } from "./ui/multiselect";
-import { Textarea } from "./ui/textarea";
-
-const options = [
-  { value: "8f4b86d2-77a1-4eb5-b3b2-1f7bde01b29b", label: "Apple" },
-  { value: "c6f0b646-8080-4ccf-a58f-59c3de3c132b", label: "Banana" },
-  { value: "e90f6f30-2f28-43e4-a1fb-6307e0c07a2c", label: "Cherry" },
-  { value: "2cc67d8f-d6a2-4eb0-a0b6-8479dcaa9e9c", label: "Mango" },
-  { value: "ad2e8cc4-f42e-43d1-970e-2c0291b04b84", label: "Orange" },
-  { value: "1bc28df2-5dd3-4e46-9cfd-0888e9b52bfb", label: "Watermelon" },
-];
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../components/ui/form";
+import { Input } from "../../../components/ui/input";
+import { MultiSelect } from "../../../components/ui/multiselect";
+import { Textarea } from "../../../components/ui/textarea";
 
 const formSchema = z.object({
   name: z.string().nonempty({ error: "Name is required." }),

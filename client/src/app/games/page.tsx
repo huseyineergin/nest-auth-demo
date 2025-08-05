@@ -1,4 +1,4 @@
-import { CreateGameForm } from "@/components/create-game-form";
+import { CreateGameForm } from "@/app/games/(components)/create-game-form";
 import { getGenresAction } from "../genres/actions";
 import { getPlatformsAction } from "../platforms/actions";
 
