@@ -13,7 +13,7 @@ export default async function Page() {
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-lg">
-        <div className="w-full space-y-4 text-center">
+        <div className="w-full space-y-4">
           <CreateGameForm platforms={platformsRes.data} genres={genresRes.data} />
         </div>
       </div>

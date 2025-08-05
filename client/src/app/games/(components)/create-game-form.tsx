@@ -104,7 +104,7 @@ export function CreateGameForm({
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       <Card>
         <CardHeader>
-          <CardTitle>Create Game</CardTitle>
+          <CardTitle className="text-center">Create Game</CardTitle>
         </CardHeader>
         <CardContent className="max-h-[50svh] overflow-y-auto">
           <Form {...form}>
