@@ -46,8 +46,10 @@ export function MultiSelect({ options, selected, placeholder = "Select", onChang
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between truncate">
-          <span className={cn(selectedLabels.length === 0 && "text-muted-foreground")}>{getDisplayLabel()}</span>
+        <Button variant="outline" role="combobox" aria-expanded={open} className="w-full justify-between">
+          <span className={cn("max-w-40 truncate", selectedLabels.length === 0 && "text-muted-foreground")}>
+            {getDisplayLabel()}
+          </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>

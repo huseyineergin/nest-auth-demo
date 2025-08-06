@@ -133,7 +133,7 @@ export function CreateGameForm({
                   <FormInputField name="publisher" control={form.control} label="Publisher" />
                 </div>
 
-                <div className="flex space-x-2">
+                <div className="flex flex-col gap-6 md:flex-row md:gap-2">
                   <FormMultiselectField
                     name="genreIds"
                     control={form.control}
