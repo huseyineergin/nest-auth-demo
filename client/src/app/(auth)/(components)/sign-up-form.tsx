@@ -32,12 +32,11 @@ export function SignUpForm({ className, ...props }: React.ComponentProps<"div">)
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     startTransition(async () => {
-      const res = await signUpAction({
-        username: values.username,
-        password: values.password,
-      });
+      const res = await signUpAction(values);
+
       if (res.success) {
         toast.success(res.message, { position: "bottom-center", closeButton: true });
+        form.reset();
       } else {
         const messages = Array.isArray(res.message) ? res.message : [res.message];
         messages.forEach((message) => {

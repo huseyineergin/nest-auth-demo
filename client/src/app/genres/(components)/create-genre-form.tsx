@@ -35,6 +35,7 @@ export function CreateGenreForm({ className, ...props }: React.ComponentProps<"d
 
       if (res.success) {
         toast.success(res.message, { position: "bottom-center", closeButton: true });
+        form.reset();
       } else {
         const messages = Array.isArray(res.message) ? res.message : [res.message];
         messages.forEach((message) => {
